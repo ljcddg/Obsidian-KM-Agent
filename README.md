@@ -161,6 +161,7 @@ obsidian-note-writer/
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
+| **v2.1.1** | 2026-08-03 | **笔记自包含性**：`workflow/write.md`「用户素材处理」新增「引用可移植性」规则——正文不得裸引用外部文件名（如 `Demo02.java`），改用语义描述 + 指向笔记内代码的指引；溯源放 frontmatter `source:` 字段；代码块内类名保留 |
 | **v2.1** | 2026-08-03 | 「实现原理」升级为 L2/L3 **必写要素**：新增 `templates/knowledge-note.md`「三、实现原理（底层机制）」章节；`workflow/write.md` 要素表新增「实现原理」行 + 3.5 写法节；`references/coding-note.md` 五要素第 4 项升级为「核心源码位置与实现原理」（L2/L3 必做，附正反例）；`workflow/review.md` L2 质量门禁新增「实现原理」检查项。README 补充 WorkBuddy 平台安装路径 |
 | v2.0 | 2026-07-31 | 重构为 Knowledge Management Agent：六大治理职责 + Agent 循环 + 分类引擎 + 冲突检测 + 修改权限矩阵；新增 `.vault-meta/` 状态索引体系 |
 | v1.x | 2026-07-30 | 初版：L1/L2/L3 三等级模板 + 代码类笔记五要素 + 面试复习模式 |

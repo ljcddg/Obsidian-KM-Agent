@@ -2,9 +2,9 @@
 
 > Obsidian 个人知识库管理系统 —— 不是 Writer，是 **Agent**
 
-一个用于 Claude Code 的 Skill。当你说出「写笔记」「整理知识点」「建 MOC」「规划学习路线」「出面试题」时，它不会只生成一篇 Markdown 就结束，而是以 Agent 的方式接管知识库的**创建、分类、归档、索引、关系、复习**全流程，把 Obsidian 从「越攒越乱的笔记堆」变成「有层次、可检索、能复习的知识网络」。
+一个用于 **Claude Code / WorkBuddy** 的 Skill。当你说出「写笔记」「整理知识点」「建 MOC」「规划学习路线」「出面试题」时，它不会只生成一篇 Markdown 就结束，而是以 Agent 的方式接管知识库的**创建、分类、归档、索引、关系、复习**全流程，把 Obsidian 从「越攒越乱的笔记堆」变成「有层次、可检索、能复习的知识网络」。
 
-本仓库内容是完整的 Claude Code Skill，克隆后放入 `~/.claude/skills/` 即可使用。
+本仓库内容是完整的 Skill，克隆后放入 `~/.claude/skills/`（Claude Code）或 `~/.workbuddy/skills/`（WorkBuddy）即可使用。
 
 ## 为什么需要它
 
@@ -49,10 +49,12 @@
 | 等级 | 适用对象 | 内容量 | 必备要素 |
 |------|---------|--------|---------|
 | **L1 速记** | 单个 API、单个概念 | ≤ 1000 字 | 定义 + 核心机制 + 一个例子 |
-| **L2 知识点** | 一个主题 | 1000~2500 字 | L1 + 为什么 + 对比表 + 坑 + 自测 |
+| **L2 知识点** | 一个主题 | 1000~2500 字 | L1 + 为什么 + **实现原理** + 对比表 + 坑 + 自测 |
 | **L3 专题** | 一个体系 | 2500 字以上 | L2 + MOC + mermaid + 学习路线 + 多篇关联 |
 
 选级规则：一个方法 → L1；一个概念 → L2；一组有演进关系的概念 → L3。**拿不准就低不就高**。
+
+> 💡 **面试导向**：技术主题的 L2/L3 笔记**必须写「实现原理 / 底层机制」**（数据结构 → 关键指令或方法 → 核心源码位置），不能只讲用法——`synchronized` 要答到对象头 Mark Word + monitorenter + ObjectMonitor，`CAS` 要答到 `Unsafe.compareAndSwapInt` + 自旋 + ABA。
 
 ## 特色能力
 
@@ -70,7 +72,7 @@
 
 ### 前置要求
 
-- [Claude Code](https://claude.com/claude-code)
+- [Claude Code](https://claude.com/claude-code) **或** [WorkBuddy](https://www.workbuddy.cn/)（任一即可）
 - Obsidian（建议，用于图谱与双链可视化）
 
 ### 安装步骤
@@ -85,16 +87,17 @@ git clone https://github.com/ljcddg/Obsidian-KM-Agent.git
 
 从仓库页面下载 ZIP 并解压。
 
-然后，把 `obsidian-note-writer` 目录放入 Claude Code 的 skills 目录：
+然后，把 `obsidian-note-writer` 目录放入对应平台的 skills 目录：
 
 | 平台 | 路径 |
 |------|------|
-| Windows | `C:\Users\{{用户名}}\.claude\skills\obsidian-note-writer\` |
-| macOS / Linux | `~/.claude/skills/obsidian-note-writer/` |
+| Claude Code（Windows） | `C:\Users\{{用户名}}\.claude\skills\obsidian-note-writer\` |
+| Claude Code（macOS / Linux） | `~/.claude/skills/obsidian-note-writer/` |
+| **WorkBuddy** | `~/.workbuddy/skills/obsidian-note-writer/` |
 
 ### 验证安装
 
-重启 Claude Code，输入 `/obsidian-note-writer`，或在对话中直接描述需求（如「帮我把这篇文档整理进知识库」），即可看到 Agent 接管工作流。
+重启 Claude Code / WorkBuddy，在对话中直接描述需求（如「帮我把这篇文档整理进知识库」），即可看到 Agent 接管工作流。
 
 ## 使用方式
 
@@ -126,7 +129,7 @@ obsidian-note-writer/
 ├── workflow/             # 核心工作流：分类 / 分析 / 写作 / 自检 / 维护
 │   ├── classify.md       # 自适应知识架构引擎（复用 / 优化 / 新建三选一）
 │   ├── analyze.md        # 需求分析：定等级 / 主线 / 素材 / 冲突检测
-│   ├── write.md          # 结构化写作：六要素按等级裁剪
+│   ├── write.md          # 结构化写作：要素按等级裁剪（L2/L3 实现原理必写）
 │   ├── review.md         # 质量自检 + 复习闭环
 │   └── maintain.md       # 索引 / MOC / 关系 / 生命周期维护
 ├── features/             # 特色能力模块
@@ -150,8 +153,17 @@ obsidian-note-writer/
 - **三层管理**：目录（物理层）+ frontmatter 元数据（元数据层）+ 双向链接（关系层），三层必须一致。
 - **不重复造轮子**：创建任何新笔记前先做冲突检测，能扩展已有笔记就不新建。
 - **不编造事实**：技术事实按可信度分级标注（A 官方文档 / B 权威书籍 / C 博客），无法确认的标 `❓待验证`。
+- **面试导向**：技术主题的笔记必须讲清「为什么这么实现」，不只讲「怎么用」——实现原理是 L2/L3 的必写要素。
 - **生命周期驱动**：知识从学习到掌握到归档，配合间隔复习，确保笔记被真正用起来。
 - **尊重用户习惯**：已有分类体系优先复用；涉及移动 / 合并 / 大规模变更，先列清单征得确认再动手。
+
+## 版本记录
+
+| 版本 | 日期 | 说明 |
+|------|------|------|
+| **v2.1** | 2026-08-03 | 「实现原理」升级为 L2/L3 **必写要素**：新增 `templates/knowledge-note.md`「三、实现原理（底层机制）」章节；`workflow/write.md` 要素表新增「实现原理」行 + 3.5 写法节；`references/coding-note.md` 五要素第 4 项升级为「核心源码位置与实现原理」（L2/L3 必做，附正反例）；`workflow/review.md` L2 质量门禁新增「实现原理」检查项。README 补充 WorkBuddy 平台安装路径 |
+| v2.0 | 2026-07-31 | 重构为 Knowledge Management Agent：六大治理职责 + Agent 循环 + 分类引擎 + 冲突检测 + 修改权限矩阵；新增 `.vault-meta/` 状态索引体系 |
+| v1.x | 2026-07-30 | 初版：L1/L2/L3 三等级模板 + 代码类笔记五要素 + 面试复习模式 |
 
 ## License
 

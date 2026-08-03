@@ -9,7 +9,7 @@
 | 1 | **完整可运行代码** | 能直接复制运行（含 import/上下文），不贴半截 | 只写 `latch.countDown()` 一行 |
 | 2 | **输出结果** | 写明运行输出或预期效果 | 无输出，读者不知道跑完是什么样 |
 | 3 | **执行流程** | 用流程描述（文字/图）讲清代码怎么跑的 | 代码贴完就结束 |
-| 4 | **核心源码位置** | 关键机制标注 JDK/框架源码类名（如 `java.util.concurrent.CountDownLatch#await`），L3 必做，L2 尽量 | 讲机制却不指路源码 |
+| 4 | **核心源码位置与实现原理** | 标注 JDK/框架源码类名（如 `java.util.concurrent.CountDownLatch#await`），**并展开关键实现要点**（数据结构 / 关键指令 / 状态位），L2 与 L3 都必做 | 只贴 `latch.await()` 却说"内部是 AQS"却不讲 state 计数 |
 | 5 | **常见修改方式** | 给出变体：改参数会怎样 / 换实现行不行 | 代码是死的，读者不会举一反三 |
 
 ## 执行流程的两种写法
@@ -54,12 +54,15 @@ sequenceDiagram
 > 原因：join 是阻塞等待指定线程结束，循环内调用等于逐线程串行等待
 ```
 
-## 源码位置标注格式
+## 源码位置与实现原理标注格式
 
 ```markdown
-- 核心源码：`java.util.concurrent.CountDownLatch` → `await()` / `countDown()`（AQS 的 state 计数）
+- 核心源码：`java.util.concurrent.CountDownLatch` → `await()` / `countDown()`（AQS 的 state 计数：countDown 走 `tryReleaseShared`，归零才放行）
+- 实现原理要点：AQS 独占/共享两套队列；state 字段是 volatile int；`Semaphore` 同用共享锁、`CyclicBarrier` 用 ReentrantLock + Condition
 - 变体：`CyclicBarrier` 用 ReentrantLock + Condition；`Semaphore` 用 AQS 共享锁
 ```
+
+> 反例（只指路不展开，不合格）：`内部基于 AQS 实现` 就结束。合格：`内部基于 AQS，state 存剩余许可，acquire 走 tryAcquireShared CAS 减 1，失败入 CLH 队列`。
 
 ## 环境版本信息（技术笔记必填）
 

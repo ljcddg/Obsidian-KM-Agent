@@ -1,6 +1,6 @@
 ---
 name: obsidian-note-writer
-description: Obsidian 个人知识库管理系统（Knowledge Management Agent）。不止生成 Markdown 笔记，更负责知识库的长期治理：知识分类引擎（领域/一级/二级分类/层级/路径）、统一 Vault 目录规划、创建前重复检测（更新/子笔记/关联笔记三选一）、MOC 与索引自动维护、前置/相关/后续关系管理与双向链接、知识生命周期管理（learning/mastered/review/archived）、事实验证分级。When to use: 用户要求"写笔记/整理知识点/建MOC/分类归档/规划学习路线/出面试题"，或提供代码与文档要求整理进 Obsidian 知识库时触发。纯方法论，不绑定任何学科，全行业通用。
+description: 'Obsidian 个人知识库管理系统（Knowledge Management Agent）。不止生成 Markdown 笔记，更负责知识库的长期治理：知识分类引擎（领域/一级/二级分类/层级/路径）、统一 Vault 目录规划、创建前重复检测（更新/子笔记/关联笔记三选一）、MOC 与索引自动维护、前置/相关/后续关系管理与双向链接、知识生命周期管理（learning/mastered/review/archived）、事实验证分级。When to use: 用户要求"写笔记/整理知识点/建MOC/分类归档/规划学习路线/出面试题"，或提供代码与文档要求整理进 Obsidian 知识库时触发。纯方法论，不绑定任何学科，全行业通用。'
 agent_created: true
 ---
 

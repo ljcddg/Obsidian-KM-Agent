@@ -161,6 +161,7 @@ obsidian-note-writer/
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
+| **v2.1.5** | 2026-08-06 | **修复 SKILL.md frontmatter YAML 导入报错**：`description:` 裸字符串内 `When to use: ...` 的英文冒号+空格被 YAML 当成嵌套映射（报 `Nested mappings are not allowed in compact mappings`）→ 改为**单引号包裹**（值内含双引号，单引号避免转义冲突）；导入 zip 已重新打包 |
 | **v2.1.4** | 2026-08-06 | **可视化规范：表格优先，mermaid 仅小图**（用户实测反馈 Obsidian 大 mermaid 撑屏/连线乱）——`workflow/write.md` 第 7 节改为「可视化（表格优先）」：架构总览/分类对比类内容**一律用表格**（如"接口 \| 线程安全实现 \| 线程不安全集合"），mermaid 仅 ≤8 节点小图；写作红线「能图就图」改为「大图改表格」；`references/obsidian.md`、`SKILL.md` L3 要素同步更新 |
 | **v2.1.3** | 2026-08-03 | **代码块不写类名**：`workflow/write.md` 明确——代码块**禁止出现任何类声明行与示例类名**（`Demo0X`/`Test0X`/`SecKillDemo` 都不行），直接展示类内逻辑（字段/方法体），引用类成员去掉类名前缀；正文/标题/代码块全局禁用编号引用，小节标题一律用功能描述（`thenApply 链`、`令牌桶限流`） |
 | **v2.1.2** | 2026-08-03 | **笔记完全自包含**：`workflow/write.md`「用户素材处理」升级为四件套——① 场景段**摘抄关键代码**（读者不跳转即懂）② 完整代码集中「核心代码」节 ③ 代码块类名**语义化**（`SecKillDemo`，禁用 `Demo0X`/`Test0X` 编号）④ 溯源放 frontmatter `source:` 字段。自检标准：笔记发给没见过代码的人也能读懂、运行、讲原理 |

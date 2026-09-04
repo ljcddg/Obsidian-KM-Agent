@@ -140,12 +140,15 @@ obsidian-note-writer/
 │   ├── interview-mode.md # 面试复习模式
 │   ├── modification-rules.md # 修改权限矩阵
 │   └── architecture.md   # 架构状态与迁移方案
+├── assets/               # 可分发资产（复制进 vault 使用）
+│   └── 自测答案样式.css  # 折叠答案专属样式：teal 青 / 小字号，配 [!answer] callout
 ├── templates/            # 三等级模板：quick-note / knowledge-note / deep-dive
 └── references/           # 规范参考
-    ├── obsidian.md       # Obsidian 使用规范（三层管理 / 链接 / MOC）
+    ├── obsidian.md       # Obsidian 使用规范（三层管理 / 链接 / MOC / callout 折叠）
     ├── vault-meta.md     # .vault-meta 状态索引规范
     ├── learning-system.md# 知识生命周期 + 间隔复习
-    └── coding-note.md    # 代码类笔记五要素
+    ├── coding-note.md    # 代码类笔记五要素
+    └── self-test-answers.md # 自测题答案规范：写作 / 隐藏（折叠）/ 样式（CSS）
 ```
 
 ## 项目哲学
@@ -161,6 +164,7 @@ obsidian-note-writer/
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
+| **v2.2.0** | 2026-09-04 | **自测题答案体系（写作 / 折叠 / 样式）**：① 新增 `references/self-test-answers.md`——答案**写作**（一点一行列表、要点加粗、只从正文提炼、给全）、**隐藏**（Obsidian callout 折叠，布局 A 一题一折叠 / 布局 B 整体折叠，按系列跟随）、**样式**（CSS snippet 挂载三步 + 微调三处：色值 / 字号 / 文字色），并明确**禁用 `<details>`** 的原因；② 新增可分发资产 `assets/自测答案样式.css`——`[!answer]` 折叠答案专属样式（teal 青、标题 0.86em、正文 0.92em 次级色、加粗要点保正文色），复制进 vault `.obsidian/snippets/` 并启用即用；③ `workflow/write.md` 自测题节升级（折叠示例改「一题一折叠 `[!answer]`」、答案版式一点一行）；④ `SKILL.md` frontmatter 增加 `version` 字段、新增 7.4「折叠写法」、文末「收尾固定栏目」「配套资产与规范索引」两节；⑤ `workflow/review.md` L2 门禁新增自测题检查项（跟随系列 / 折叠隐藏 / 答案给全且与正文一致）；⑥ `templates/deep-dive.md` / `knowledge-note.md` 自测题占位符同步；⑦ 根因复盘：智能客服 / RAG 两篇新笔记此前漏了自测题且答案未折叠（系列模板漂移），已回补并写入规范防复发 |
 | **v2.1.9** | 2026-09-03 | **自测题答案折叠写法**：新增「折叠写法」规范——需要"折叠/展开"的内容（自测题参考答案、长附录）一律用 Obsidian callout 折叠 `> [!question]- 参考答案（点击展开）`（`-` 默认收起、`+` 或省略默认展开），**禁用 `<details>`/`<summary>`**（它对 `<summary>` 后空行敏感，Obsidian 遇空行拦腰截断 HTML 块导致"一直展开"，且内部 markdown 不渲染）。改动：`SKILL.md` 新增 7.4 节、`references/obsidian.md` 第 7 节新增 7.1 折叠写法、`workflow/write.md` 自测题节补折叠规范、`templates/knowledge-note.md` 与 `templates/deep-dive.md` 自测题节补折叠答案示例 |
 | **v2.1.8** | 2026-08-21 | **图的类型与适配方案 + 第八章柔性化**：① 新增「九、图的类型与适配方案」——按**内容语义**将图分为 A 关系/位置图（mermaid graph）、B 结构/封装图（ASCII 文本框图，位域/嵌套）、C 流程/时序/状态图（mermaid sequence/state）、D 对比表；给出选型决策树、表优于图判定（3行内文字/4-10行表/10行+拆表或转ASCII）、约束分层（图≠表、ASCII结构图不受 mermaid 上限管辖、不强行配图）；② 第八章「UML/关系图数量上限」从**硬禁**改为**警告+提示**（节点>10/连线>15 触发警告提示拆分，非硬拒；极端>15/>20 强烈建议拆分），**标签≤8字维持强制红线**（防横向撑爆）；③ `templates/deep-dive.md` 的「关系图」小节升级为「图选型」小节；④ 整改 `8-计算机网络/TCP协议.md`：补 B 类 ASCII 封装图+首部位域图、C 类三次握手/四次挥手时序图，第一章 warning 同步柔性化措辞 |
 | **v2.1.7** | 2026-08-20 | **关系图标签长度约束 + 笔记整改**：① 新增「八、UML / 关系图数量上限」下「单节点标签长度限制（防横向撑爆）」硬约束——节点 `[]` 标签 ≤ 8 汉字，细节（rwnd/cwnd/协议名/算法名）下沉正文、只保留一级概念词，根因是第八章原只约束节点数/连线数、漏了标签长度，导致长标签在 Obsidian 单栏撑爆、右侧节点被挤出可视区；② `templates/deep-dive.md` 关系图 warning 同步加标签长度注记；③ 整改 `8-计算机网络/TCP协议.md` 关系图，节点标签精简为一级概念词 |

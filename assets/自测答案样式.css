@@ -1,0 +1,60 @@
+/* ============================================================
+   自测题 · 折叠参考答案 样式
+   ------------------------------------------------------------
+   来源：Obsidian-KM-Agent skill 可分发资产（assets/自测答案样式.css）
+   用法：笔记里答案折叠区写下面这行，即自动套用本样式——
+     > [!answer]- 参考答案（点击展开）
+
+   挂载三步：
+   ① 本文件复制到 vault 的 `.obsidian/snippets/自测答案样式.css`
+   ② 在 `.obsidian/appearance.json` 的 enabledCssSnippets 数组加入
+      "自测答案样式"（或 设置 → 外观 → CSS 代码片段 手动打开）
+   ③ 重启 Obsidian / 重载 snippet 即生效
+
+   设计意图：答案区（[!answer]）与提问区（[!question]）刻意区分，
+   答案用 teal 青色系，字号比正文小一号，展开后像"注释层"，
+   不跟正文抢视觉；但答案里的加粗要点仍保持正文深色，扫重点不受影响。
+
+   想微调时只需改以下三处：
+     ① 主色：--callout-color 后的三个数字（RGB）
+     ② 答案字号：.callout-content 的 font-size
+     ③ 答案文字颜色：theme-light 下的 color 值（深色主题走 --text-muted 自动适配）
+   ============================================================ */
+
+/* 1) 折叠区容器：teal 主色（标题字色 + 左边框 + 图标）、圆角 */
+.callout[data-callout="answer"] {
+  --callout-color: 20, 184, 166;   /* teal-500：rgb(20,184,166)，换 RGB 即换主色 */
+  --callout-icon: lucide-badge-check; /* 图标：带勾徽章，暗示"已解答" */
+  border-radius: 10px;
+}
+
+/* 2) 折叠标题「参考答案（点击展开）」：比正文小一号、加粗 */
+.callout[data-callout="answer"] .callout-title {
+  font-size: 0.86em;
+}
+.callout[data-callout="answer"] .callout-title .callout-title-inner {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* 3) 答案正文：比笔记正文小一号、次级文字色、宽行距 */
+.callout[data-callout="answer"] .callout-content {
+  font-size: 0.92em;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* 3.1) 浅色主题下用更稳的中灰（深色主题走 --text-muted 自动适配） */
+.theme-light .callout[data-callout="answer"] .callout-content {
+  color: #5b6470;
+}
+
+/* 4) 答案里的加粗要点保持正文色，不被"浅色化"削弱 */
+.callout[data-callout="answer"] .callout-content strong {
+  color: var(--text-normal);
+}
+
+/* 5) 行内代码略缩，避免在小字号下溢出 */
+.callout[data-callout="answer"] .callout-content code {
+  font-size: 0.88em;
+}

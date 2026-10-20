@@ -83,7 +83,7 @@ taxonomy:
 
 ## 2026-07-31
 - 新建：数据结构/5-并发多线程/CompletableFuture.md（L2）
-- 更新：MOC-Java并发.md（新增异步编程节点）
+- 更新：导航页（形态 A：`MOC-Java并发.md` 新增节点 / 形态 B：《学习路线》插一步并重排编号）
 - 更新：index.json、relations.json
 ```
 

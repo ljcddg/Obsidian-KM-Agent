@@ -64,7 +64,7 @@
 ### Step 5 · 冲突后的维护
 
 - 选择 A（合并）→ 更新原笔记 frontmatter `updated`，追加版本演进说明。
-- 选择 B（子笔记）→ 新建子笔记，原笔记补 `related` 与 [[ ]] 链接，两篇都更新 MOC。
+- 选择 B（子笔记）→ 新建子笔记，原笔记补 `related` 与 [[ ]] 链接，两篇都更新导航页（MOC 或路线页）。
 - 选择 C（独立）→ 走 `features/knowledge-map.md` 建双向关联。
 - 选择 D（仅链接）→ 在"关联笔记"小节加一行即可。
 - 所有动作同步 `.vault-meta/index.json` 与 `changelog.md`（如有）。

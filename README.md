@@ -2,7 +2,7 @@
 
 > Obsidian 个人知识库管理系统 —— 不是 Writer，是 **Agent**
 
-一个用于 **Claude Code / WorkBuddy** 的 Skill。当你说出「写笔记」「整理知识点」「建 MOC」「规划学习路线」「出面试题」时，它不会只生成一篇 Markdown 就结束，而是以 Agent 的方式接管知识库的**创建、分类、归档、索引、关系、复习**全流程，把 Obsidian 从「越攒越乱的笔记堆」变成「有层次、可检索、能复习的知识网络」。
+一个用于 **Claude Code / WorkBuddy** 的 Skill。当你说出「写笔记」「整理知识点」「建 MOC / 学习路线」「规划学习路线」「出面试题」时，它不会只生成一篇 Markdown 就结束，而是以 Agent 的方式接管知识库的**创建、分类、归档、索引、关系、复习**全流程，把 Obsidian 从「越攒越乱的笔记堆」变成「有层次、可检索、能复习的知识网络」。
 
 本仓库内容是完整的 Skill，克隆后放入 `~/.claude/skills/`（Claude Code）或 `~/.workbuddy/skills/`（WorkBuddy）即可使用。
 
@@ -22,7 +22,7 @@
 | 1 | **创建知识** | 按等级（L1/L2/L3）匹配模板，生成高质量笔记 |
 | 2 | **分类知识** | 分类引擎：领域 → 一级 → 二级 → 层级 → 存储路径 |
 | 3 | **归档知识** | 归入统一 Vault 目录，禁止随意新建分类 |
-| 4 | **维护索引** | MOC 与 `.vault-meta/` 状态文件自动同步 |
+| 4 | **维护索引** | **导航页**（形态 A：MOC 地图；形态 B：单页《学习路线》）与 `.vault-meta/` 状态文件自动同步 |
 | 5 | **管理关系** | 前置 / 相关 / 后续 + 双向链接 |
 | 6 | **支撑长期学习** | 生命周期状态 + 间隔复习 + 面试模式 |
 
@@ -39,7 +39,7 @@
    ↓
 生成笔记（按等级匹配模板与要素）
    ↓
-更新索引（MOC + .vault-meta + 双向链接）
+更新索引（导航页 + .vault-meta + 双向链接）
    ↓
 保存（写入文件，返回变更摘要）
 ```
@@ -50,7 +50,7 @@
 |------|---------|--------|---------|
 | **L1 速记** | 单个 API、单个概念 | ≤ 1000 字 | 定义 + 核心机制 + 一个例子 |
 | **L2 知识点** | 一个主题 | 1000~2500 字 | L1 + 为什么 + **实现原理** + 对比表 + 坑 + 自测 |
-| **L3 专题** | 一个体系 | 2500 字以上 | L2 + MOC + 关系图（小 mermaid 或表格）+ 学习路线 + 多篇关联 |
+| **L3 专题** | 一个体系 | 2500 字以上 | L2 + 导航页 + 关系图（小 mermaid 或对比表，二选一）+ 学习路线 + 多篇关联 |
 
 选级规则：一个方法 → L1；一个概念 → L2；一组有演进关系的概念 → L3。**拿不准就低不就高**。
 
@@ -66,7 +66,7 @@
 | **面试复习模式** | 「出面试题 / 模拟面试 / 考前冲刺」 | 基于笔记生成面试题与模拟面试 |
 | **架构锁定** | vault 分类变更 / 大规模迁移时 | 架构状态（stable / experimental / migration）+ 迁移方案 |
 | **增量整合** | 创建任何新笔记前 | 四层冲突检测 + 关系分类 + 粒度判断 + 用户确认 |
-| **修改权限** | 涉及 MOC / 索引 / 移动 / 合并时 | Level 0~3 四级权限 + 架构状态 × 操作白名单矩阵 |
+| **修改权限** | 涉及导航页 / 索引 / 移动 / 合并时 | Level 0~3 四级权限 + 架构状态 × 操作白名单矩阵 |
 
 ## 安装
 
@@ -105,7 +105,7 @@ git clone https://github.com/ljcddg/Obsidian-KM-Agent.git
 
 - 📝 「写一篇关于 XX 的笔记 / 整理这个知识点」
 - 🗂️ 「把这篇文档收进我的知识库，归好类」
-- 🕸️ 「为 XX 主题建一个 MOC / 图谱」
+- 🕸️ 「为 XX 主题建一个 MOC / 学习路线」
 - 🧭 「我想学 XX，帮我规划一条学习路线」
 - 🎯 「基于我的笔记出几道面试题 / 模拟面试」
 
@@ -117,8 +117,8 @@ Agent：
   分类引擎：CS / Java / Concurrent / JDK API → 数据结构/5-并发多线程/
   冲突检测：候选 [[CompletableFuture.md]]（L1+L4 双高）→ 判定 B 同节点扩展，建议子笔记
   等级：L2 知识点
-  ... 写入笔记，更新 MOC 与 .vault-meta，双向补链 ...
-  ✅ 变更摘要：新建 X / 更新 MOC / 同步索引
+  ... 写入笔记，更新导航页与 .vault-meta，双向补链 ...
+  ✅ 变更摘要：新建 X / 更新导航页 / 同步索引
 ```
 
 ## 目录结构
@@ -131,7 +131,7 @@ obsidian-note-writer/
 │   ├── analyze.md        # 需求分析：定等级 / 主线 / 素材 / 冲突检测
 │   ├── write.md          # 结构化写作：要素按等级裁剪（L2/L3 实现原理必写）
 │   ├── review.md         # 质量自检 + 复习闭环
-│   └── maintain.md       # 索引 / MOC / 关系 / 生命周期维护
+│   └── maintain.md       # 索引 / 导航页 / 关系 / 生命周期维护
 ├── features/             # 特色能力模块
 │   ├── knowledge-map.md  # 知识关系自动维护（前置 / 相关 / 后续 + 双链）
 │   ├── conflict-detection.md # 四层冲突检测 + 增量整合
@@ -142,9 +142,12 @@ obsidian-note-writer/
 │   └── architecture.md   # 架构状态与迁移方案
 ├── assets/               # 可分发资产（复制进 vault 使用）
 │   └── 自测答案样式.css  # 折叠答案专属样式：teal 青 / 小字号，配 [!answer] callout
-├── templates/            # 三等级模板：quick-note / knowledge-note / deep-dive
+├── templates/            # 三等级模板：quick-note / knowledge-note / deep-dive（均带「📍 本篇位置」占位）
+├── scripts/              # 零依赖体检脚本（Python，无第三方库）
+│   ├── check_frontmatter.py       # frontmatter YAML 体检（保留字符起始 / 未闭合 / 反斜杠提示）
+│   └── check_index_consistency.py # 索引一致性体检（条数 / file↔path / related 死链 / 正文双链死链 / category / taxonomy / relations peer 对称 / lifecycle / 位置行覆盖）
 └── references/           # 规范参考
-    ├── obsidian.md       # Obsidian 使用规范（三层管理 / 链接 / MOC / callout 折叠）
+    ├── obsidian.md       # Obsidian 使用规范（三层管理 / 链接 / 导航页双形态 / callout 折叠）
     ├── vault-meta.md     # .vault-meta 状态索引规范
     ├── learning-system.md# 知识生命周期 + 间隔复习
     ├── coding-note.md    # 代码类笔记五要素
@@ -164,6 +167,7 @@ obsidian-note-writer/
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
+| **v2.6.0** | 2026-10-20 | **导航页双形态 + 体检脚本落库 + 索引公约强化**（累积并入 2.3–2.5 的本地迭代）：① **导航页两种形态**——形态 A MOC 地图（多主题大型库）/ 形态 B 单页《学习路线》（以学习顺序为唯一导航），一个 vault 只选一种、不并存；L3 必备要素由「MOC」改为「导航页」，`workflow/maintain.md` Step2 拆成双形态维护流程。② **L3 不再强制 mermaid**——`deep-dive` 模板的「A 类关系图（必备）」降为「按需，可用对比表替代」，与写作红线一致。③ **三模板补「📍 本篇位置」占位**（章节制 vault 必带）。④ **新增 `scripts/`**——两个零依赖体检脚本落库：`check_frontmatter.py`、`check_index_consistency.py`（后者含**正文 `[[ ]]` 死链**与**位置行覆盖**检查）。⑤ **新增 §13.6**：导航页双形态、篇数计数口径（除自身外）、章内重编号的引用面评估与七步流程。⑥ **§12.4 扩为「任何文件写入」**：追加日志同样禁用双引号 `python -c`（反引号会被 shell 吃掉）。⑦ 文档内 MOC 表述全面改为「导航页（MOC / 路线页）」。 |
 | **v2.2.0** | 2026-09-04 | **自测题答案体系（写作 / 折叠 / 样式）**：① 新增 `references/self-test-answers.md`——答案**写作**（一点一行列表、要点加粗、只从正文提炼、给全）、**隐藏**（Obsidian callout 折叠，布局 A 一题一折叠 / 布局 B 整体折叠，按系列跟随）、**样式**（CSS snippet 挂载三步 + 微调三处：色值 / 字号 / 文字色），并明确**禁用 `<details>`** 的原因；② 新增可分发资产 `assets/自测答案样式.css`——`[!answer]` 折叠答案专属样式（teal 青、标题 0.86em、正文 0.92em 次级色、加粗要点保正文色），复制进 vault `.obsidian/snippets/` 并启用即用；③ `workflow/write.md` 自测题节升级（折叠示例改「一题一折叠 `[!answer]`」、答案版式一点一行）；④ `SKILL.md` frontmatter 增加 `version` 字段、新增 7.4「折叠写法」、文末「收尾固定栏目」「配套资产与规范索引」两节；⑤ `workflow/review.md` L2 门禁新增自测题检查项（跟随系列 / 折叠隐藏 / 答案给全且与正文一致）；⑥ `templates/deep-dive.md` / `knowledge-note.md` 自测题占位符同步；⑦ 根因复盘：智能客服 / RAG 两篇新笔记此前漏了自测题且答案未折叠（系列模板漂移），已回补并写入规范防复发 |
 | **v2.1.9** | 2026-09-03 | **自测题答案折叠写法**：新增「折叠写法」规范——需要"折叠/展开"的内容（自测题参考答案、长附录）一律用 Obsidian callout 折叠 `> [!question]- 参考答案（点击展开）`（`-` 默认收起、`+` 或省略默认展开），**禁用 `<details>`/`<summary>`**（它对 `<summary>` 后空行敏感，Obsidian 遇空行拦腰截断 HTML 块导致"一直展开"，且内部 markdown 不渲染）。改动：`SKILL.md` 新增 7.4 节、`references/obsidian.md` 第 7 节新增 7.1 折叠写法、`workflow/write.md` 自测题节补折叠规范、`templates/knowledge-note.md` 与 `templates/deep-dive.md` 自测题节补折叠答案示例 |
 | **v2.1.8** | 2026-08-21 | **图的类型与适配方案 + 第八章柔性化**：① 新增「九、图的类型与适配方案」——按**内容语义**将图分为 A 关系/位置图（mermaid graph）、B 结构/封装图（ASCII 文本框图，位域/嵌套）、C 流程/时序/状态图（mermaid sequence/state）、D 对比表；给出选型决策树、表优于图判定（3行内文字/4-10行表/10行+拆表或转ASCII）、约束分层（图≠表、ASCII结构图不受 mermaid 上限管辖、不强行配图）；② 第八章「UML/关系图数量上限」从**硬禁**改为**警告+提示**（节点>10/连线>15 触发警告提示拆分，非硬拒；极端>15/>20 强烈建议拆分），**标签≤8字维持强制红线**（防横向撑爆）；③ `templates/deep-dive.md` 的「关系图」小节升级为「图选型」小节；④ 整改 `8-计算机网络/TCP协议.md`：补 B 类 ASCII 封装图+首部位域图、C 类三次握手/四次挥手时序图，第一章 warning 同步柔性化措辞 |

@@ -26,17 +26,10 @@
   计数=0，放行                   ...
 ```
 
-### 方式 B：mermaid 时序图（流程复杂时用）
+### 方式 B：SVG 时序图（流程复杂时用）
 
-```mermaid
-sequenceDiagram
-    participant 主 as 主线程
-    participant 工 as 工作线程
-    主->>工: 启动 5 个任务
-    主->>主: await() 等待计数归零
-    工->>工: 完成任务
-    工-->>主: countDown() 计数-1
-    Note over 主: 计数=0，继续执行
+多条线程/组件交互时，画一张独立时序图：竖向两条「生命线」（主线程 / 工作线程），横向箭头表示调用，虚线箭头表示返回，右侧加 `Note` 框标关键状态。
+文件名如 `CountDownLatch 协同时序图.svg`，正文 `![[CountDownLatch 协同时序图.svg]]` 嵌入。**mermaid 已废弃，不要写 `sequenceDiagram` 代码块。**
 ```
 
 ## 代码块规范

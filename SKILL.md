@@ -1,7 +1,7 @@
 ---
 name: obsidian-note-writer
-version: 2.6.0
-description: 'Obsidian 个人知识库管理系统（Knowledge Management Agent）。不止生成 Markdown 笔记，更负责知识库的长期治理：知识分类引擎（领域/一级/二级分类/层级/路径）、统一 Vault 目录规划、创建前重复检测（更新/子笔记/关联笔记三选一）、导航页（MOC 地图 / 单页学习路线双形态）与索引自动维护、前置/相关/后续关系管理与双向链接、知识生命周期管理（learning/mastered/review/archived）、事实验证分级、frontmatter 语法红线与自动体检（防 Obsidian 属性面板异常）。When to use: 用户要求"写笔记/整理知识点/建MOC或学习路线/分类归档/规划学习路线/出面试题"，或提供代码与文档要求整理进 Obsidian 知识库时触发。纯方法论，不绑定任何学科，全行业通用。'
+version: 2.7.0
+description: 'Obsidian 个人知识库管理系统（Knowledge Management Agent）。不止生成 Markdown 笔记，更负责知识库的长期治理：知识分类引擎（领域/一级/二级分类/层级/路径）、统一 Vault 目录规划、创建前重复检测（更新/子笔记/关联笔记三选一）、导航页（MOC 地图 / 单页学习路线双形态）与索引自动维护、前置/相关/后续关系管理与双向链接、知识生命周期管理（learning/mastered/review/archived）、事实验证分级、frontmatter 语法红线与自动体检（防 Obsidian 属性面板异常）。When to use: 用户要求"写笔记/整理知识点/建MOC或学习路线/分类归档/规划学习路线/出面试题"，或提供代码与文档要求整理进 Obsidian 知识库时触发。纯方法论，不绑定任何学科，全行业通用。所有配图一律用独立 SVG 文件嵌入（禁用 mermaid 与 ASCII 文本框图）。'
 agent_created: true
 ---
 
